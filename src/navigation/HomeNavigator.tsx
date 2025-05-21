@@ -1,41 +1,57 @@
-import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack";
-import TelaPrincipal from "../layouts/TelaPrincipal";
+import React from 'react';
+import { NativeStackScreenProps, createNativeStackNavigator } from '@react-navigation/native-stack';
+import LobbyScreen from '../layouts/Lobby';
+import ClienteCadastro from '../layouts/ClienteCadastro';
+import Login from '../layouts/Login';
+import Menu from '../layouts/Menu';
+import CadastroDeServico from '../layouts/CadastroDeServico';
+import AnimalCadastro from '../layouts/AnimalCadastro';
+import ProdutoCadastro from '../layouts/CadastroProduto'; // Importando a nova tela
 
-//Define quais as telas e os parâmetros de cada tela
-type RootStackParamList = {
-  TelaPrincipal: undefined; 
-  
+// Definindo o tipo de parâmetros para a navegação
+export type RootStackParamList = {
+  Lobby: undefined;
+  ClienteCadastro: undefined;
+  Login: undefined;
+  Menu: { clienteId: string };
+  CadastroDeServico: { clienteId: string };
+  AnimalCadastro: { clienteId: string };
+  CadastroProduto: { clienteId: string }; // Adicionando o parâmetro de Produto
 };
 
-//Cria a Stack (tipo de navegação onde as telas estão em uma "pilha")
-//com o RootStackParamList definindo as telas da stack
+// Criando o navegador de pilha
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-//Cria o navegador da pilha
 const HomeNavigator = () => {
   return (
-    <Stack.Navigator
-      initialRouteName="TelaPrincipal" //nome da tela inicial
-      screenOptions={{ headerShown: false }} //headerShown define se o cabeçalho irá ser exibido
-    >
-
-      {/* define uma te la dando um nome(igual ao RootStackParamList) e qual o componente será carregado */}
-      <Stack.Screen name="TelaPrincipal" component={TelaPrincipal} />
-
+    <Stack.Navigator initialRouteName="Lobby" screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Lobby" component={LobbyScreen} />
+      <Stack.Screen name="ClienteCadastro" component={ClienteCadastro} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Menu" component={Menu} />
+      <Stack.Screen name="CadastroDeServico" component={CadastroDeServico} />
+      <Stack.Screen name="AnimalCadastro" component={AnimalCadastro} />
+      <Stack.Screen name="CadastroProduto" component={ProdutoCadastro} />
     </Stack.Navigator>
   );
-}
+};
 
-//cria as propriedades da TelaPrincipal, que nesse caso é undefined
-//essas propriedades são usadas lá em layouts/TelaPincipal.tsx
-type PrincipalProps = NativeStackScreenProps<RootStackParamList,
-  'TelaPrincipal'>;
+// Tipagens das props de navegação para cada tela
+type LobbyProps = NativeStackScreenProps<RootStackParamList, 'Lobby'>;
+type CadClientePropsNav = NativeStackScreenProps<RootStackParamList, 'ClienteCadastro'>;
+type LoginPropsNav = NativeStackScreenProps<RootStackParamList, 'Login'>;
+type MenuPropsNav = NativeStackScreenProps<RootStackParamList, 'Menu'>;
+type CadDeServicoNav = NativeStackScreenProps<RootStackParamList, 'CadastroDeServico'>;
+type AnimalCadPropsNav = NativeStackScreenProps<RootStackParamList, 'AnimalCadastro'>;
+type ProdutoCadPropsNav = NativeStackScreenProps<RootStackParamList, 'CadastroProduto'>; // Tipagem da nova tela
 
-
-//exporta o navegador da pilha para ficar visível para outros arquivos    
 export default HomeNavigator;
-
-//exporta os tipos de dados para ficar visível para outros arquivos
 export type {
-  PrincipalProps
+  LobbyProps,
+  CadClientePropsNav,
+  LoginPropsNav,
+  MenuPropsNav,
+  CadDeServicoNav,
+  AnimalCadPropsNav,
+  ProdutoCadPropsNav // Exportando a tipagem da nova tela
 };
